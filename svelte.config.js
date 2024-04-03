@@ -6,8 +6,8 @@ const config = {
 	kit: {
 		adapter: adapter({
 			fallback: '404.html',
-			pages: './_site',
-			assets: './_site'
+			pages: './build',
+			assets: './build'
 		}),
 		paths: {
 			base: process.argv.includes('dev') ? '' : process.env.BASE_PATH

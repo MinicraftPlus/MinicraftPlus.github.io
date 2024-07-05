@@ -1,0 +1,52 @@
+// Source: https://freefrontend.com/css-hamburger-menu-icons/page/2/
+// Cool Hamburger Toggle Effect
+// Author: Kriszta
+
+$lineThickness: 3px;
+$transitionSpeed: .25s;
+$transitionEasing: ease-in-out;
+
+// Demo
+.menu-toggle {
+  position: relative;
+  display: block;
+
+  background: transparent;
+  border-top: $lineThickness solid;
+  border-bottom: $lineThickness solid;
+
+  font-size: 0;
+
+  transition: all $transitionSpeed $transitionEasing;
+
+  &:before,
+  &:after {
+    content: '';
+    display: block;
+    width: 100%;
+    height: $lineThickness;
+
+    position: absolute;
+    top: 50%;
+    left: 50%;
+
+    background: currentColor;
+
+    transform: translate(-50%, -50%);
+    transition: transform $transitionSpeed $transitionEasing;
+  }
+
+  &.active {
+    border-color: transparent;
+
+    &:before {
+      transform: translate(-50%, -50%) rotate(45deg);
+    }
+
+    &:after {
+      transform: translate(-50%, -50%) rotate(-45deg);
+    }
+  }
+}
+
+

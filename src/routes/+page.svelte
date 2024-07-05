@@ -1,5 +1,5 @@
 <script>
-	import bannerLogo from '$lib/assets/banner logo.svg';
+	import bannerLogo from '$lib/assets/banner_logo.svg';
 </script>
 
 <div class="flex flex-col items-center justify-center w-full h-screen box-border">

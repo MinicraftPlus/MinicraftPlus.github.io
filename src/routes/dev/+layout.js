@@ -9,3 +9,5 @@ import {dev} from "$app/environment";
 if (!dev) {
 	error(404, "Not Found");
 }
+
+export const prerender = false;

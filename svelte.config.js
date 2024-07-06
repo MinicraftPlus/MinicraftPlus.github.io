@@ -5,14 +5,16 @@ import { vitePreprocess } from '@sveltejs/vite-plugin-svelte';
 const config = {
 	kit: {
 		adapter: adapter({
-			// fallback: '404.html',
+			fallback: '404.html',
 			pages: './build',
 			assets: './build',
-			// strict: true
 		}),
 		paths: {
 			base: process.argv.includes('dev') ? '' : process.env.BASE_PATH
 		},
+		files: {
+			routes: process.argv.includes('dev') ? "src/dev" : "src/routes",
+		}
 	},
 	preprocess: vitePreprocess()
 };

@@ -1,4 +1,5 @@
 <script>
+	import "../app.css";
 	import "./+layout.scss";
 </script>
 
@@ -28,7 +29,7 @@
 				</button>
 			</div>
 			<div class="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
-				<a href="/" class="flex flex-shrink-0 items-center mr-4">
+				<a href="/static" class="flex flex-shrink-0 items-center mr-4">
 					<img class="h-8 w-auto" src="" alt="Minicraft+">
 				</a>
 				<div class="hidden sm:ml-6 sm:block">

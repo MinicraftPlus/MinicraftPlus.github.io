@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { page } from '$app/stores';
 	export let msg = $page.error!.message;
-	export let status = $page.status;
+	export let status = $page.status.toString();
 </script>
 
 <div class="flex flex-col h-screen">

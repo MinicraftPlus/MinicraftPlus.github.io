@@ -6,6 +6,8 @@ const config = {
 	kit: {
 		adapter: adapter({
 			// fallback: '404.html', // Not working on GitHub Pages
+			// Instead, "404" route is used
+			// More info: https://github.com/sveltejs/kit/issues/1209#issuecomment-1765621042
 			pages: './build',
 			assets: './build',
 		}),

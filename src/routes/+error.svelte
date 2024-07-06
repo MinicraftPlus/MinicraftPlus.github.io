@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { page } from '$app/stores';
+	import { base } from "$app/paths";
 	export let msg = $page.error!.message;
 	export let status = $page.status.toString();
 </script>
@@ -22,7 +23,7 @@
 
 	<footer class="bg-green-200" aria-labelledby="footer-heading">
 		<div class="flex p-12 flex-col items-center m-auto px-6 text-3xl">
-			<a href="/">Go back to home</a>
+			<a href="{base}/">Go back to home</a>
 		</div>
 	</footer>
 </div>

@@ -5,7 +5,7 @@ import { vitePreprocess } from '@sveltejs/vite-plugin-svelte';
 const config = {
 	kit: {
 		adapter: adapter({
-			fallback: '404.html',
+			// fallback: '404.html', // Not working on GitHub Pages
 			pages: './build',
 			assets: './build',
 		}),

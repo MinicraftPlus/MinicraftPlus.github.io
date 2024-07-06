@@ -7,11 +7,15 @@ const config = {
 		adapter: adapter({
 			fallback: '404.html',
 			pages: './build',
-			assets: './build'
+			assets: './build',
+			strict: true
 		}),
 		paths: {
 			base: process.argv.includes('dev') ? '' : process.env.BASE_PATH
 		},
+		prerender: {
+			default: true
+		}
 	},
 	preprocess: vitePreprocess()
 };

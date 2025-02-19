@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap'); 
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap');
 
 :root {
   /* Light theme variables - updated to match logo colors */
@@ -46,7 +46,7 @@ header {
   text-align: center;
   box-shadow: 0 2px 5px var(--shadow-color);
   position: relative;
-  background-image: url('header.png');
+  background-image: url('play_minicraft_header___media_library_original_1920_480.png');
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;

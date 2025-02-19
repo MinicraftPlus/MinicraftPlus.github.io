@@ -1,6 +1,6 @@
 ### Notice
 The website is somehow not working because of the Deplyoments. Should be fixed in a few hours/days. (Im to dumb to work with custom deployment settings)
-If you are intrested in how it should look after the fix, check out [this](https://batchdebug.github.io/minicraft-webpage/).
+If you are intrested in how it should look after the fix, check out 🔗 [this](https://batchdebug.github.io/minicraft-webpage/).
 - BatchDebug
 
 ## Minicraft Website  

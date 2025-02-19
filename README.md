@@ -1,8 +1,8 @@
-## Minicraft Website  
+## Minicraft website  
 
 **Created in 48 hours, loved for years.**  
 
-Click 🔗 [here](https://minicraftplus.github.io/) to visit the Website.
+Click 🔗 [here](https://minicraftplus.github.io/) to visit the website.
 
 A webpage for **Minicraft**, the timeless 2D survival game crafted by Markus "Notch" Persson.
 

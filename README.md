@@ -7,4 +7,4 @@ A webpage for **Minicraft**, the timeless 2D survival game crafted by Markus "No
 Check out **Minicraft+ Revived**, a community-driven project that expands upon the classic with new features, improvements, and ongoing updates:  
 🔗 [Minicraft+ Revived on GitHub](https://github.com/MinicraftPlus/minicraft-plus-revived)  
 
-© 2025 BatchDebug
+© 2025 Minicraft Community

@@ -1,5 +1,5 @@
 ### Notice
-The website is somehow not working because of the Deplyoments. Should be fixed in a few hours/days. (Im to dumb to work with custom Deployment-settings)
+The website is somehow not working because of the Deplyoments. Should be fixed in a few hours/days. (Im to dumb to work with custom deployment settings)
 - BatchDebug
 
 ## Minicraft Website  

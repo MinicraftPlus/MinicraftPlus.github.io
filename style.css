@@ -605,3 +605,40 @@ footer {
     padding: 1rem;
   }
 }
+
+.mods-section {
+  text-align: center;
+  margin: 2rem 0;
+  padding: 2rem;
+  position: relative;
+}
+
+.mods-link {
+  display: inline-block;
+  font-family: 'Press Start 2P', cursive;
+  font-size: 0.9rem;
+  color: #4a9eff;
+  text-decoration: none;
+  padding: 1rem 2rem;
+  border: 2px solid #4a9eff;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+  background: var(--card-background);
+  position: relative;
+  overflow: hidden;
+}
+
+.mods-link:hover {
+  color: white;
+  background: #4a9eff;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(74, 158, 255, 0.3);
+}
+
+[data-theme="dark"] .mods-link {
+  box-shadow: 0 4px 15px rgba(74, 158, 255, 0.2);
+}
+
+[data-theme="dark"] .mods-link:hover {
+  box-shadow: 0 6px 20px rgba(74, 158, 255, 0.4);
+}

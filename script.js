@@ -1,4 +1,4 @@
-// Theme switcher functionality with local storage persistence
+// Theme switcher functionality with local storage persistence 
 document.addEventListener('DOMContentLoaded', () => {
   const themeToggle = document.getElementById('theme-toggle');
   

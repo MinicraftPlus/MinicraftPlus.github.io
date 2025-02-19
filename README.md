@@ -1,6 +1,6 @@
 ### Notice
 The website is somehow not working because of the Deplyoments. Should be fixed in a few hours/days. (Im to dumb to work with custom Deployment-settings)
--BatchDebug
+- BatchDebug
 
 ## Minicraft Website  
 

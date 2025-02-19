@@ -1,9 +1,0 @@
-title: Minicraft+
-description: Minicraft+, the 2D sandbox survival game.
-url: https://MinicraftPlus.github.io/old
-source: ./old
-destination: ./_site/old
-repository: "MinicraftPlus/MinicraftPlus.github.io"
-theme: jekyll-theme-cayman
-
-encoding: "utf-8"

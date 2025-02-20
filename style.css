@@ -11,6 +11,9 @@
   --gradient-start: #fff;
   --gradient-end: #F0FFF0;
   --shadow-color: rgba(0,50,0,0.1);
+  --rgb-primary: #FF69B4;
+  --rgb-secondary: #33CC33;
+  --rgb-accent: #6666FF;
 }
 
 [data-theme="dark"] {
@@ -641,4 +644,80 @@ footer {
 
 [data-theme="dark"] .mods-link:hover {
   box-shadow: 0 6px 20px rgba(74, 158, 255, 0.4);
+}
+
+.rgb-mode * {
+  transition: color 0.3s, background-color 0.3s, border-color 0.3s !important;
+}
+
+.rgb-mode {
+  --primary-color: var(--rgb-primary) !important;
+  --secondary-color: var(--rgb-secondary) !important;
+  --accent-color: var(--rgb-accent) !important;
+}
+
+.rgb-mode h1,
+.rgb-mode h2,
+.rgb-mode h3,
+.rgb-mode p,
+.rgb-mode li,
+.rgb-mode a,
+.rgb-mode button {
+  animation: rgbTextShadow 2s infinite linear !important;
+}
+
+.rgb-mode .edition::before {
+  background: linear-gradient(90deg, var(--rgb-primary), var(--rgb-secondary)) !important;
+}
+
+.rgb-mode .edition-button,
+.rgb-mode .discord-button,
+.rgb-mode .close-popup,
+.rgb-mode .mods-link,
+.rgb-mode .theme-switch button {
+  background: linear-gradient(45deg, var(--rgb-secondary), var(--rgb-primary)) !important;
+  border-color: var(--rgb-primary) !important;
+}
+
+@keyframes rgbTextShadow {
+  0% { text-shadow: 0 0 10px var(--rgb-primary); }
+  33% { text-shadow: 0 0 10px var(--rgb-secondary); }
+  66% { text-shadow: 0 0 10px var(--rgb-accent); }
+  100% { text-shadow: 0 0 10px var(--rgb-primary); }
+}
+
+@keyframes rgbFilter {
+  0% { filter: hue-rotate(0deg) brightness(1.2); }
+  100% { filter: hue-rotate(360deg) brightness(1.2); }
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.rgb-mode .logo {
+  animation: float 3s ease-in-out infinite, rgbFilter 2s infinite linear, spin 4s infinite linear !important;
+  transform-origin: center center;
+}
+
+.rgb-mode nav a {
+  color: var(--rgb-primary) !important;
+}
+
+.rgb-mode nav a:hover {
+  color: var(--rgb-secondary) !important;
+}
+
+.rgb-mode .edition,
+.rgb-mode .feature,
+.rgb-mode .gameplay-section {
+  border: 2px solid var(--rgb-primary);
+  box-shadow: 0 0 15px var(--rgb-secondary) !important;
+}
+
+.rgb-mode .edition:hover,
+.rgb-mode .feature:hover,
+.rgb-mode .gameplay-section:hover {
+  box-shadow: 0 0 25px var(--rgb-accent) !important;
 }

@@ -1,20 +1,60 @@
 // Theme switcher functionality with local storage persistence
 document.addEventListener('DOMContentLoaded', () => {
   const themeToggle = document.getElementById('theme-toggle');
-  
+  let rgbMode = false;
+  let originalButtonText;
+
+  // Show "Eye Cancer Mode" text when shift is held
+  document.addEventListener('keydown', (e) => {
+    if (e.shiftKey && !originalButtonText) {
+      originalButtonText = themeToggle.textContent;
+      themeToggle.textContent = 'Eye Cancer Mode';
+    }
+  });
+
+  document.addEventListener('keyup', (e) => {
+    if (e.key === 'Shift' && originalButtonText) {
+      themeToggle.textContent = originalButtonText;
+      originalButtonText = null;
+    }
+  });
+
   // Check for saved theme preference, default to light if none found
   const savedTheme = localStorage.getItem('minicraft-theme') || 'light';
   document.documentElement.setAttribute('data-theme', savedTheme);
   updateThemeButtonText(savedTheme);
 
-  // Theme toggle handler
-  themeToggle.addEventListener('click', () => {
-    const currentTheme = document.documentElement.getAttribute('data-theme');
-    const newTheme = currentTheme === 'light' ? 'dark' : 'light';
-    
-    document.documentElement.setAttribute('data-theme', newTheme);
-    localStorage.setItem('minicraft-theme', newTheme);
-    updateThemeButtonText(newTheme);
+  // Theme toggle handler with RGB mode
+  themeToggle.addEventListener('click', (e) => {
+    if (e.shiftKey) {
+      rgbMode = !rgbMode;
+      if (rgbMode) {
+        document.body.classList.add('rgb-mode');
+        startRGBAnimation();
+        themeToggle.textContent = 'Eye Cancer Mode';
+        // Hide the button with animation
+        themeToggle.style.transform = 'scale(0)';
+        setTimeout(() => {
+          themeToggle.style.display = 'none';
+        }, 300);
+      } else {
+        document.body.classList.remove('rgb-mode');
+        stopRGBAnimation();
+        updateThemeButtonText(document.documentElement.getAttribute('data-theme'));
+        // Show the button again
+        themeToggle.style.display = 'block';
+        setTimeout(() => {
+          themeToggle.style.transform = 'scale(1)';
+        }, 50);
+      }
+    } else {
+      const currentTheme = document.documentElement.getAttribute('data-theme');
+      const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+      
+      document.documentElement.setAttribute('data-theme', newTheme);
+      localStorage.setItem('minicraft-theme', newTheme);
+      updateThemeButtonText(newTheme);
+    }
   });
 
   // Helper function to update button text
@@ -222,55 +262,15 @@ document.addEventListener('DOMContentLoaded', () => {
   setInterval(updateMinicraftPlusLink, 300000);
 
   // RGB mode functionality
-  let keyPressStartTime = 0;
-  let rgbMode = false;
   let rgbInterval;
-
-  // Add shift key detection for theme button
-  themeToggle.addEventListener('click', (e) => {
-    if (e.shiftKey) {
-      rgbMode = !rgbMode;
-      if (rgbMode) {
-        document.body.classList.add('rgb-mode');
-        startRGBAnimation();
-      } else {
-        document.body.classList.remove('rgb-mode');
-        stopRGBAnimation();
-      }
-    }
-  });
-
-  // Keep existing 'O' key RGB trigger
-  document.addEventListener('keydown', (e) => {
-    if (e.key.toLowerCase() === 'o' && !keyPressStartTime) {
-      keyPressStartTime = Date.now();
-    }
-  });
-
-  document.addEventListener('keyup', (e) => {
-    if (e.key.toLowerCase() === 'o') {
-      const pressDuration = Date.now() - keyPressStartTime;
-      if (pressDuration >= 8000) {
-        rgbMode = !rgbMode;
-        if (rgbMode) {
-          document.body.classList.add('rgb-mode');
-          startRGBAnimation();
-        } else {
-          document.body.classList.remove('rgb-mode');
-          stopRGBAnimation();
-        }
-      }
-      keyPressStartTime = 0;
-    }
-  });
 
   function startRGBAnimation() {
     let hue = 0;
     rgbInterval = setInterval(() => {
-      hue = (hue + 1) % 360;
+      hue = (hue + 5) % 360; // Faster color change
       document.documentElement.style.setProperty('--rgb-primary', `hsl(${hue}, 100%, 50%)`);
-      document.documentElement.style.setProperty('--rgb-secondary', `hsl(${(hue + 30) % 360}, 100%, 40%)`);
-      document.documentElement.style.setProperty('--rgb-accent', `hsl(${(hue + 60) % 360}, 100%, 60%)`);
+      document.documentElement.style.setProperty('--rgb-secondary', `hsl(${(hue + 120) % 360}, 100%, 50%)`);
+      document.documentElement.style.setProperty('--rgb-accent', `hsl(${(hue + 240) % 360}, 100%, 50%)`);
     }, 16);
   }
 

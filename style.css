@@ -651,6 +651,9 @@ footer {
 }
 
 .rgb-mode {
+  --rgb-primary: #ff0000;
+  --rgb-secondary: #00ff00;
+  --rgb-accent: #0000ff;
   --primary-color: var(--rgb-primary) !important;
   --secondary-color: var(--rgb-secondary) !important;
   --accent-color: var(--rgb-accent) !important;
@@ -680,44 +683,70 @@ footer {
 }
 
 @keyframes rgbTextShadow {
-  0% { text-shadow: 0 0 10px var(--rgb-primary); }
-  33% { text-shadow: 0 0 10px var(--rgb-secondary); }
-  66% { text-shadow: 0 0 10px var(--rgb-accent); }
-  100% { text-shadow: 0 0 10px var(--rgb-primary); }
+  0% { text-shadow: 0 0 10px #ff0000; }
+  33% { text-shadow: 0 0 10px #00ff00; }
+  66% { text-shadow: 0 0 10px #0000ff; }
+  100% { text-shadow: 0 0 10px #ff0000; }
 }
 
 @keyframes rgbFilter {
-  0% { filter: hue-rotate(0deg) brightness(1.2); }
-  100% { filter: hue-rotate(360deg) brightness(1.2); }
-}
-
-@keyframes spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
+  0% { 
+    filter: hue-rotate(0deg) brightness(1.2); 
+    transform: rotate(0deg) translateY(0px);
+  }
+  25% {
+    transform: rotate(90deg) translateY(-10px);
+  }
+  50% { 
+    filter: hue-rotate(180deg) brightness(1.2);
+    transform: rotate(180deg) translateY(0px);
+  }
+  75% {
+    transform: rotate(270deg) translateY(-10px);
+  }
+  100% { 
+    filter: hue-rotate(360deg) brightness(1.2);
+    transform: rotate(360deg) translateY(0px);
+  }
 }
 
 .rgb-mode .logo {
-  animation: float 3s ease-in-out infinite, rgbFilter 2s infinite linear, spin 4s infinite linear !important;
+  animation: rgbFilter 4s infinite linear !important;
   transform-origin: center center;
 }
 
 .rgb-mode nav a {
-  color: var(--rgb-primary) !important;
+  animation: navLinkColor 2s infinite linear !important;
 }
 
-.rgb-mode nav a:hover {
-  color: var(--rgb-secondary) !important;
+@keyframes navLinkColor {
+  0% { color: #ff0000 !important; }
+  33% { color: #00ff00 !important; }
+  66% { color: #0000ff !important; }
+  100% { color: #ff0000 !important; }
 }
 
 .rgb-mode .edition,
 .rgb-mode .feature,
 .rgb-mode .gameplay-section {
-  border: 2px solid var(--rgb-primary);
-  box-shadow: 0 0 15px var(--rgb-secondary) !important;
+  animation: rgbBorder 2s infinite linear !important;
 }
 
-.rgb-mode .edition:hover,
-.rgb-mode .feature:hover,
-.rgb-mode .gameplay-section:hover {
-  box-shadow: 0 0 25px var(--rgb-accent) !important;
+@keyframes rgbBorder {
+  0% { 
+    border: 2px solid #ff0000;
+    box-shadow: 0 0 15px #ff0000 !important;
+  }
+  33% { 
+    border: 2px solid #00ff00;
+    box-shadow: 0 0 15px #00ff00 !important;
+  }
+  66% { 
+    border: 2px solid #0000ff;
+    box-shadow: 0 0 15px #0000ff !important;
+  }
+  100% { 
+    border: 2px solid #ff0000;
+    box-shadow: 0 0 15px #ff0000 !important;
+  }
 }

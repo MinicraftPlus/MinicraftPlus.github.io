@@ -647,9 +647,9 @@ footer {
 }
 
 .rgb-mode {
-  --rgb-primary: #ff0000;
-  --rgb-secondary: #00ff00;
-  --rgb-accent: #0000ff;
+  --rgb-primary: #FF69B4;
+  --rgb-secondary: #33CC33;
+  --rgb-accent: #6666FF;
   --primary-color: var(--rgb-primary) !important;
   --secondary-color: var(--rgb-secondary) !important;
   --accent-color: var(--rgb-accent) !important;

@@ -220,4 +220,49 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Check for new release every 5 minutes
   setInterval(updateMinicraftPlusLink, 300000);
+
+  // RGB mode functionality
+  let keyPressStartTime = 0;
+  let rgbMode = false;
+  let rgbInterval;
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key.toLowerCase() === 'o' && !keyPressStartTime) {
+      keyPressStartTime = Date.now();
+    }
+  });
+
+  document.addEventListener('keyup', (e) => {
+    if (e.key.toLowerCase() === 'o') {
+      const pressDuration = Date.now() - keyPressStartTime;
+      if (pressDuration >= 8000) { // 8 seconds
+        rgbMode = !rgbMode;
+        if (rgbMode) {
+          document.body.classList.add('rgb-mode');
+          startRGBAnimation();
+        } else {
+          document.body.classList.remove('rgb-mode');
+          stopRGBAnimation();
+        }
+      }
+      keyPressStartTime = 0;
+    }
+  });
+
+  function startRGBAnimation() {
+    let hue = 0;
+    rgbInterval = setInterval(() => {
+      hue = (hue + 1) % 360;
+      document.documentElement.style.setProperty('--rgb-primary', `hsl(${hue}, 100%, 50%)`);
+      document.documentElement.style.setProperty('--rgb-secondary', `hsl(${(hue + 30) % 360}, 100%, 40%)`);
+      document.documentElement.style.setProperty('--rgb-accent', `hsl(${(hue + 60) % 360}, 100%, 60%)`);
+    }, 16);
+  }
+
+  function stopRGBAnimation() {
+    clearInterval(rgbInterval);
+    document.documentElement.style.removeProperty('--rgb-primary');
+    document.documentElement.style.removeProperty('--rgb-secondary');
+    document.documentElement.style.removeProperty('--rgb-accent');
+  }
 });

@@ -646,10 +646,6 @@ footer {
   box-shadow: 0 6px 20px rgba(74, 158, 255, 0.4);
 }
 
-.rgb-mode * {
-  transition: color 0.3s, background-color 0.3s, border-color 0.3s !important;
-}
-
 .rgb-mode {
   --rgb-primary: #ff0000;
   --rgb-secondary: #00ff00;
@@ -657,6 +653,27 @@ footer {
   --primary-color: var(--rgb-primary) !important;
   --secondary-color: var(--rgb-secondary) !important;
   --accent-color: var(--rgb-accent) !important;
+  --background-color: var(--rgb-primary) !important;
+  --card-background: rgba(0, 0, 0, 0.8) !important;
+  --text-color: #ffffff !important;
+  --gradient-start: var(--rgb-primary) !important;
+  --gradient-end: var(--rgb-secondary) !important;
+  --shadow-color: rgba(255, 255, 255, 0.4) !important;
+}
+
+.rgb-mode * {
+  transition: all 0.1s !important;
+}
+
+.rgb-mode .logo {
+  animation: rgbFilter 1s infinite linear !important;
+  transform-origin: center center;
+  filter: contrast(200%) brightness(200%) !important;
+}
+
+.rgb-mode header::before {
+  opacity: 0.3 !important;
+  animation: rgbGradient 0.5s infinite linear !important;
 }
 
 .rgb-mode h1,
@@ -666,87 +683,117 @@ footer {
 .rgb-mode li,
 .rgb-mode a,
 .rgb-mode button {
-  animation: rgbTextShadow 2s infinite linear !important;
-}
-
-.rgb-mode .edition::before {
-  background: linear-gradient(90deg, var(--rgb-primary), var(--rgb-secondary)) !important;
-}
-
-.rgb-mode .edition-button,
-.rgb-mode .discord-button,
-.rgb-mode .close-popup,
-.rgb-mode .mods-link,
-.rgb-mode .theme-switch button {
-  background: linear-gradient(45deg, var(--rgb-secondary), var(--rgb-primary)) !important;
-  border-color: var(--rgb-primary) !important;
-}
-
-@keyframes rgbTextShadow {
-  0% { text-shadow: 0 0 10px #ff0000; }
-  33% { text-shadow: 0 0 10px #00ff00; }
-  66% { text-shadow: 0 0 10px #0000ff; }
-  100% { text-shadow: 0 0 10px #ff0000; }
-}
-
-@keyframes rgbFilter {
-  0% { 
-    filter: hue-rotate(0deg) brightness(1.2); 
-    transform: rotate(0deg) translateY(0px);
-  }
-  25% {
-    transform: rotate(90deg) translateY(-10px);
-  }
-  50% { 
-    filter: hue-rotate(180deg) brightness(1.2);
-    transform: rotate(180deg) translateY(0px);
-  }
-  75% {
-    transform: rotate(270deg) translateY(-10px);
-  }
-  100% { 
-    filter: hue-rotate(360deg) brightness(1.2);
-    transform: rotate(360deg) translateY(0px);
-  }
-}
-
-.rgb-mode .logo {
-  animation: rgbFilter 4s infinite linear !important;
-  transform-origin: center center;
-}
-
-.rgb-mode nav a {
-  animation: navLinkColor 2s infinite linear !important;
-}
-
-@keyframes navLinkColor {
-  0% { color: #ff0000 !important; }
-  33% { color: #00ff00 !important; }
-  66% { color: #0000ff !important; }
-  100% { color: #ff0000 !important; }
+  animation: rgbTextShadow 0.5s infinite linear !important;
+  text-shadow: 0 0 20px currentColor, 0 0 40px currentColor, 0 0 60px currentColor !important;
+  color: white !important;
 }
 
 .rgb-mode .edition,
 .rgb-mode .feature,
 .rgb-mode .gameplay-section {
-  animation: rgbBorder 2s infinite linear !important;
+  animation: rgbBorder 0.5s infinite linear, spin 3s infinite linear !important;
+  background: rgba(0, 0, 0, 0.8) !important;
+  backdrop-filter: blur(5px) !important;
+  border-width: 3px !important;
+  transform-origin: center center;
+}
+
+.rgb-mode .feature:nth-child(odd) {
+  animation: rgbBorder 0.5s infinite linear, spinReverse 4s infinite linear !important;
+}
+
+.rgb-mode .edition-button,
+.rgb-mode .download-button,
+.rgb-mode .discord-button {
+  animation: rgbBackground 0.5s infinite linear, bounce 0.5s infinite alternate !important;
+}
+
+@keyframes bounce {
+  from { transform: scale(1) rotate(0deg); }
+  to { transform: scale(1.1) rotate(5deg); }
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg) scale(1); }
+  to { transform: rotate(360deg) scale(1.05); }
+}
+
+@keyframes spinReverse {
+  from { transform: rotate(360deg) scale(1); }
+  to { transform: rotate(0deg) scale(1.05); }
+}
+
+@keyframes rgbBackground {
+  0% { background: #ff0000; }
+  33% { background: #00ff00; }
+  66% { background: #0000ff; }
+  100% { background: #ff0000; }
 }
 
 @keyframes rgbBorder {
   0% { 
-    border: 2px solid #ff0000;
-    box-shadow: 0 0 15px #ff0000 !important;
+    border: 3px solid #ff0000;
+    box-shadow: 0 0 50px #ff0000 !important;
   }
   33% { 
-    border: 2px solid #00ff00;
-    box-shadow: 0 0 15px #00ff00 !important;
+    border: 3px solid #00ff00;
+    box-shadow: 0 0 50px #00ff00 !important;
   }
   66% { 
-    border: 2px solid #0000ff;
-    box-shadow: 0 0 15px #0000ff !important;
+    border: 3px solid #0000ff;
+    box-shadow: 0 0 50px #0000ff !important;
   }
   100% { 
-    border: 2px solid #ff0000;
-    box-shadow: 0 0 15px #ff0000 !important;
+    border: 3px solid #ff0000;
+    box-shadow: 0 0 50px #ff0000 !important;
   }
+}
+
+@keyframes rgbFilter {
+  0% { 
+    filter: hue-rotate(0deg) brightness(2) contrast(200%); 
+    transform: rotate(0deg) scale(1.2);
+  }
+  25% {
+    transform: rotate(90deg) scale(1.4);
+  }
+  50% { 
+    filter: hue-rotate(180deg) brightness(2) contrast(200%);
+    transform: rotate(180deg) scale(1.2);
+  }
+  75% {
+    transform: rotate(270deg) scale(1.4);
+  }
+  100% { 
+    filter: hue-rotate(360deg) brightness(2) contrast(200%);
+    transform: rotate(360deg) scale(1.2);
+  }
+}
+
+@keyframes rgbTextShadow {
+  0% { text-shadow: 0 0 20px #ff0000, 0 0 40px #ff0000, 0 0 60px #ff0000; }
+  33% { text-shadow: 0 0 20px #00ff00, 0 0 40px #00ff00, 0 0 60px #00ff00; }
+  66% { text-shadow: 0 0 20px #0000ff, 0 0 40px #0000ff, 0 0 60px #0000ff; }
+  100% { text-shadow: 0 0 20px #ff0000, 0 0 40px #ff0000, 0 0 60px #ff0000; }
+}
+
+.rgb-mode nav a {
+  animation: navItemSpin 2s infinite linear !important;
+  display: inline-block;
+}
+
+@keyframes navItemSpin {
+  0% { transform: rotate(-10deg) scale(1); }
+  50% { transform: rotate(10deg) scale(1.2); }
+  100% { transform: rotate(-10deg) scale(1); }
+}
+
+.rgb-mode section {
+  animation: sectionPulse 2s infinite ease-in-out !important;
+}
+
+@keyframes sectionPulse {
+  0% { transform: translateY(0) scale(1); }
+  50% { transform: translateY(-10px) scale(1.02); }
+  100% { transform: translateY(0) scale(1); }
 }

@@ -226,6 +226,21 @@ document.addEventListener('DOMContentLoaded', () => {
   let rgbMode = false;
   let rgbInterval;
 
+  // Add shift key detection for theme button
+  themeToggle.addEventListener('click', (e) => {
+    if (e.shiftKey) {
+      rgbMode = !rgbMode;
+      if (rgbMode) {
+        document.body.classList.add('rgb-mode');
+        startRGBAnimation();
+      } else {
+        document.body.classList.remove('rgb-mode');
+        stopRGBAnimation();
+      }
+    }
+  });
+
+  // Keep existing 'O' key RGB trigger
   document.addEventListener('keydown', (e) => {
     if (e.key.toLowerCase() === 'o' && !keyPressStartTime) {
       keyPressStartTime = Date.now();
@@ -235,7 +250,7 @@ document.addEventListener('DOMContentLoaded', () => {
   document.addEventListener('keyup', (e) => {
     if (e.key.toLowerCase() === 'o') {
       const pressDuration = Date.now() - keyPressStartTime;
-      if (pressDuration >= 8000) { // 8 seconds
+      if (pressDuration >= 8000) {
         rgbMode = !rgbMode;
         if (rgbMode) {
           document.body.classList.add('rgb-mode');

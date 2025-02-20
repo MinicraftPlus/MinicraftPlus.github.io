@@ -280,4 +280,104 @@ document.addEventListener('DOMContentLoaded', () => {
     document.documentElement.style.removeProperty('--rgb-secondary');
     document.documentElement.style.removeProperty('--rgb-accent');
   }
+
+  // Add easter egg sound elements
+  const nyaSound = document.createElement('audio');
+  nyaSound.src = 'https://www.myinstants.com/media/sounds/nya_2xyALFL.mp3';
+  document.body.appendChild(nyaSound);
+
+  const vineBoomSound = document.createElement('audio');
+  vineBoomSound.src = 'https://www.myinstants.com/media/sounds/vine-boom-bass-boost-sound-effect.mp3';
+  document.body.appendChild(vineBoomSound);
+
+  // Add uwu and 69 detection
+  let typedKeys = '';
+  let timeout;
+  let uwuMode = false;
+
+  function resetTypingBuffer() {
+    clearTimeout(timeout);
+    timeout = setTimeout(() => {
+      typedKeys = '';
+    }, 1000);
+  }
+
+  function enableUwuMode() {
+    uwuMode = true;
+    nyaSound.currentTime = 0;
+    nyaSound.play();
+    
+    // Change all green colors to pink shades
+    document.documentElement.style.setProperty('--primary-color', '#FF69B4');  // Hot pink
+    document.documentElement.style.setProperty('--secondary-color', '#FF1493'); // Deep pink
+    document.documentElement.style.setProperty('--accent-color', '#FFB6C1');   // Light pink
+    document.documentElement.style.setProperty('--background-color', '#FFF0F5'); // Lavender blush
+    document.documentElement.style.setProperty('--gradient-start', '#FFE4E1'); // Misty rose
+    document.documentElement.style.setProperty('--gradient-end', '#FFC0CB');   // Pink
+    
+    // If in dark mode, use brighter pinks
+    if (document.documentElement.getAttribute('data-theme') === 'dark') {
+      document.documentElement.style.setProperty('--primary-color', '#FF69B4');
+      document.documentElement.style.setProperty('--secondary-color', '#FF1493');
+      document.documentElement.style.setProperty('--accent-color', '#FF00FF');
+      document.documentElement.style.setProperty('--background-color', '#4B0082');
+      document.documentElement.style.setProperty('--gradient-start', '#800080');
+      document.documentElement.style.setProperty('--gradient-end', '#8B008B');
+    }
+    
+    // Change all buttons and UI elements
+    document.querySelectorAll('.edition-button, .download-button, .discord-button, button').forEach(button => {
+      button.style.background = '#FF69B4';
+      button.style.borderColor = '#FF1493';
+    });
+  }
+
+  document.addEventListener('keypress', (e) => {
+    typedKeys += e.key.toLowerCase();
+    
+    if (typedKeys.includes('uwu') && !uwuMode) {
+      enableUwuMode();
+      typedKeys = '';
+    }
+    
+    if (typedKeys.includes('69')) {
+      vineBoomSound.currentTime = 0;
+      vineBoomSound.play();
+      
+      // Add a quick screen shake effect
+      document.body.style.animation = 'shake 0.5s cubic-bezier(.36,.07,.19,.97) both';
+      setTimeout(() => {
+        document.body.style.animation = '';
+      }, 500);
+      
+      typedKeys = '';
+    }
+    
+    resetTypingBuffer();
+  });
+
+  // Add shake animation to CSS dynamically
+  const style = document.createElement('style');
+  style.textContent = `
+    @keyframes shake {
+      10%, 90% { transform: translate3d(-1px, 0, 0); }
+      20%, 80% { transform: translate3d(2px, 0, 0); }
+      30%, 50%, 70% { transform: translate3d(-4px, 0, 0); }
+      40%, 60% { transform: translate3d(4px, 0, 0); }
+    }
+  `;
+  document.head.appendChild(style);
+
+  // Debounce helper function
+  function debounce(func, wait) {
+    let timeout;
+    return function executedFunction(...args) {
+      const later = () => {
+        clearTimeout(timeout);
+        func(...args);
+      };
+      clearTimeout(timeout);
+      timeout = setTimeout(later, wait);
+    };
+  }
 });

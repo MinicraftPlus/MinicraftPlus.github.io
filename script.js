@@ -135,12 +135,18 @@ document.addEventListener('DOMContentLoaded', () => {
           Join Discord Server
         </a>
         <div class="tips">
-          <h4>Quick Tips:</h4>
+          <h4>Installation Guide:</h4>
           <ul>
-            <li>Use WASD or arrow keys to move</li>
-            <li>Space/X to attack</li>
-            <li>C to open inventory</li>
-            <li>Press ESC for menu</li>
+            <li>1. Install Java if you haven't already:
+              <br>
+              <a href="https://www.java.com/download/" target="_blank" style="color: #4a9eff; text-decoration: underline;">Download Java Runtime (JRE)</a>
+              <br>
+              <a href="https://adoptium.net/" target="_blank" style="color: #4a9eff; text-decoration: underline;">or Download OpenJDK</a>
+            </li>
+            <li>2. Double-click the downloaded .jar file to run
+              <br>(Windows users can start playing right away!)</li>
+            <li>3. If double-clicking doesn't work, open Command Prompt/Terminal</li>
+            <li>4. Type: java -jar minicraft.jar</li>
           </ul>
         </div>
         <button class="close-popup">Close</button>

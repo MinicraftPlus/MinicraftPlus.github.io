@@ -567,14 +567,26 @@ footer {
 }
 
 .tips li {
-  padding: 0.5rem 0;
+  padding: 0.4rem 0;
   font-size: 1rem;
+  line-height: 1.4;
 }
 
 .tips li:before {
   content: "→";
   color: var(--primary-color);
   margin-right: 0.5rem;
+}
+
+.tips a {
+  display: inline-block;
+  margin: 0.3rem 0;
+  transition: color 0.3s;
+}
+
+.tips a:hover {
+  color: var(--primary-color) !important;
+  text-decoration: none !important;
 }
 
 .close-popup {

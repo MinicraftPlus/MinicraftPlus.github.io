@@ -1,389 +1,188 @@
-// Theme switcher functionality with local storage persistence
 document.addEventListener('DOMContentLoaded', () => {
   const themeToggle = document.getElementById('theme-toggle');
-  let rgbMode = false;
-  let originalButtonText;
 
-  // Show "Eye Cancer Mode" text when shift is held
-  document.addEventListener('keydown', (e) => {
-    if (e.shiftKey && !originalButtonText) {
-      originalButtonText = themeToggle.textContent;
-      themeToggle.textContent = 'Eye Cancer Mode';
-    }
-  });
-
-  document.addEventListener('keyup', (e) => {
-    if (e.key === 'Shift' && originalButtonText) {
-      themeToggle.textContent = originalButtonText;
-      originalButtonText = null;
-    }
-  });
-
-  // Check for saved theme preference, default to light if none found
+  // Simplified theme handling
   const savedTheme = localStorage.getItem('minicraft-theme') || 'light';
   document.documentElement.setAttribute('data-theme', savedTheme);
   updateThemeButtonText(savedTheme);
 
-  // Theme toggle handler with RGB mode
   themeToggle.addEventListener('click', (e) => {
-    if (e.shiftKey) {
-      rgbMode = !rgbMode;
-      if (rgbMode) {
-        document.body.classList.add('rgb-mode');
-        startRGBAnimation();
-        themeToggle.textContent = 'Eye Cancer Mode';
-        // Hide the button with animation
-        themeToggle.style.transform = 'scale(0)';
-        setTimeout(() => {
-          themeToggle.style.display = 'none';
-        }, 300);
-      } else {
-        document.body.classList.remove('rgb-mode');
-        stopRGBAnimation();
-        updateThemeButtonText(document.documentElement.getAttribute('data-theme'));
-        // Show the button again
-        themeToggle.style.display = 'block';
-        setTimeout(() => {
-          themeToggle.style.transform = 'scale(1)';
-        }, 50);
-      }
-    } else {
-      const currentTheme = document.documentElement.getAttribute('data-theme');
-      const newTheme = currentTheme === 'light' ? 'dark' : 'light';
-      
-      document.documentElement.setAttribute('data-theme', newTheme);
-      localStorage.setItem('minicraft-theme', newTheme);
-      updateThemeButtonText(newTheme);
-    }
+    const currentTheme = document.documentElement.getAttribute('data-theme');
+    const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+
+    document.documentElement.setAttribute('data-theme', newTheme);
+    localStorage.setItem('minicraft-theme', newTheme);
+    updateThemeButtonText(newTheme);
   });
 
-  // Helper function to update button text
   function updateThemeButtonText(theme) {
     themeToggle.textContent = theme === 'light' ? 'Dark Mode' : 'Light Mode';
   }
 
-  // Smooth scroll behavior for navigation
+  // Optimized smooth scroll
   document.querySelectorAll('nav a').forEach(anchor => {
     anchor.addEventListener('click', function(e) {
       e.preventDefault();
-      const targetId = this.getAttribute('href');
-      const target = document.querySelector(targetId);
-      
+      const target = document.querySelector(this.getAttribute('href'));
       if (target) {
-        const headerOffset = 100;
-        const elementPosition = target.getBoundingClientRect().top;
-        const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
-
-        window.scrollTo({
-          top: offsetPosition,
-          behavior: 'smooth'
-        });
+        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
       }
     });
   });
 
-  // Intersection Observer for fade-in animations
-  const observerOptions = {
-    threshold: 0.1,
-    rootMargin: '0px 0px -50px 0px'
-  };
-
+  // Intersection Observer with reduced complexity
   const observer = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
         entry.target.style.opacity = '1';
         entry.target.style.transform = 'translateY(0)';
-        // Unobserve after animation to improve performance
         observer.unobserve(entry.target);
       }
     });
-  }, observerOptions);
+  }, { threshold: 0.1 });
 
-  // Apply fade-in animation to sections
   document.querySelectorAll('section').forEach(section => {
     section.style.opacity = '0';
     section.style.transform = 'translateY(20px)';
-    section.style.transition = 'opacity 0.5s ease-out, transform 0.5s ease-out';
+    section.style.transition = 'opacity 0.3s, transform 0.3s';
     observer.observe(section);
   });
 
-  // Error handling for theme switching
-  window.addEventListener('storage', (e) => {
-    if (e.key === 'minicraft-theme') {
-      try {
-        const newTheme = e.newValue || 'light';
-        document.documentElement.setAttribute('data-theme', newTheme);
-        updateThemeButtonText(newTheme);
-      } catch (error) {
-        console.error('Error syncing theme across tabs:', error);
-        // Fallback to light theme if there's an error
-        document.documentElement.setAttribute('data-theme', 'light');
-        updateThemeButtonText('light');
-      }
-    }
-  });
+  // Optimized popup handling with filename detection
+  function showThankYouAndDownload(downloadUrl) {
+    const filename = downloadUrl.split('/').pop();
+    const popup = document.createElement('div');
+    popup.className = 'popup-overlay';
+    popup.style.display = 'flex';
 
-  // Create thank you popup
-  const popupHTML = `
-    <div id="thank-you-popup" class="popup-overlay">
+    let installationGuideHTML = `
+      <div class="tips">
+        <h3>Installation Guide:</h3>
+        <ul>
+          <li>On Windows: Double click the .jar file to run (if Java is installed)</li>
+          <li>On Mac/Linux: Open Terminal and type: java -jar ${filename}</li>
+          <li><a href="https://www.java.com/download/" target="_blank">Download Java Runtime</a> if needed</li>
+        </ul>
+      </div>
+    `;
+
+    if (downloadUrl.includes('minicraft.zip')) {
+      installationGuideHTML = ''; // Don't include installation guide for original version
+    }
+
+    popup.innerHTML = `
       <div class="popup-content">
         <h2>Thank You!</h2>
-        <p>Your download should begin automatically. We hope you enjoy your Minicraft adventure!</p>
-        <h3>Join Our Community!</h3>
-        <p>Connect with other players, share your experiences, and get help when needed.</p>
-        <a href="https://discord.gg/mJFRZXy9BK" class="discord-button" target="_blank">
-          Join Discord Server
-        </a>
-        <div class="tips">
-          <h4>Installation Guide:</h4>
-          <ul>
-            <li>1. Install Java if you haven't already:
-              <br>
-              <a href="https://www.java.com/download/" target="_blank" style="color: #4a9eff; text-decoration: underline;">Download Java Runtime (JRE)</a>
-              <br>
-              <a href="https://adoptium.net/" target="_blank" style="color: #4a9eff; text-decoration: underline;">or Download OpenJDK</a>
-            </li>
-            <li>2. Double-click the downloaded .jar file to run
-              <br>(Windows users can start playing right away!)</li>
-            <li>3. If double-clicking doesn't work, open Command Prompt/Terminal</li>
-            <li>4. Type: java -jar minicraft.jar</li>
-          </ul>
-        </div>
+        <p>Your download of ${filename} should begin automatically.</p>
+        ${installationGuideHTML}
         <button class="close-popup">Close</button>
       </div>
-    </div>
-  `;
+    `;
 
-  // Add popup to body
-  document.body.insertAdjacentHTML('beforeend', popupHTML);
+    document.body.appendChild(popup);
 
-  const popup = document.getElementById('thank-you-popup');
-  const closeButton = document.querySelector('.close-popup');
+    const closeBtn = popup.querySelector('.close-popup');
+    const closePopup = () => {
+      popup.remove();
+    };
 
-  // Close popup on button click or clicking outside
-  closeButton.addEventListener('click', () => {
-    popup.style.display = 'none';
-  });
+    closeBtn.addEventListener('click', closePopup);
+    popup.addEventListener('click', (e) => {
+      if (e.target === popup) closePopup();
+    });
 
-  popup.addEventListener('click', (e) => {
-    if (e.target === popup) {
-      popup.style.display = 'none';
-    }
-  });
-
-  // Function to show popup and start download
-  function showThankYouAndDownload(downloadUrl) {
-    popup.style.display = 'flex';
-    // Start download
+    // Trigger download
     const link = document.createElement('a');
     link.href = downloadUrl;
-    link.download = '';
-    document.body.appendChild(link);
     link.click();
-    document.body.removeChild(link);
   }
 
-  // Add click handlers to all download buttons
-  document.querySelectorAll('.edition-button, .dev-builds a').forEach(button => {
-    button.addEventListener('click', (e) => {
-      e.preventDefault();
-      showThankYouAndDownload(button.href);
-    });
-  });
-
-  async function updateMinicraftPlusLink() {
+  // Improved GitHub API handling with caching
+  async function updateMinicraftLinks() {
     try {
-      // Get latest release
-      const releaseResponse = await fetch('https://api.github.com/repos/MinicraftPlus/minicraft-plus-revived/releases/latest');
-      const releaseData = await releaseResponse.json();
-      
-      // Get pre-releases
-      const preReleasesResponse = await fetch('https://api.github.com/repos/MinicraftPlus/minicraft-plus-revived/releases');
-      const allReleases = await preReleasesResponse.json();
-      
-      const downloadLink = document.querySelector('[data-edition="plus"]');
-      const editionDiv = downloadLink?.closest('.edition');
-      
-      if (downloadLink && editionDiv) {
-        if (releaseData.assets && releaseData.assets.length > 0) {
-          const jarAsset = releaseData.assets.find(asset => asset.name.endsWith('.jar'));
-          if (jarAsset) {
-            downloadLink.href = jarAsset.browser_download_url;
-            
-            // Update version information
-            let versionInfo = editionDiv.querySelector('.version-info');
-            if (!versionInfo) {
-              versionInfo = document.createElement('div');
-              versionInfo.className = 'version-info';
-              editionDiv.insertBefore(versionInfo, editionDiv.querySelector('.button-container'));
-            }
-            versionInfo.textContent = `Latest Stable Version: ${releaseData.tag_name}`;
-            versionInfo.style.display = 'block';
-            
-            // Add dev build links
-            let devBuilds = editionDiv.querySelector('.dev-builds');
-            if (!devBuilds) {
-              devBuilds = document.createElement('div');
-              devBuilds.className = 'dev-builds';
-              editionDiv.insertBefore(devBuilds, editionDiv.querySelector('.button-container'));
-            }
-            
-            // Find latest pre-release and nightly
-            const preRelease = allReleases.find(release => release.prerelease);
-            const nightly = allReleases.find(release => release.tag_name.toLowerCase().includes('nightly'));
-            
-            const preReleaseLink = preRelease?.assets?.find(asset => asset.name.endsWith('.jar'))?.browser_download_url;
-            const nightlyLink = nightly?.assets?.find(asset => asset.name.endsWith('.jar'))?.browser_download_url;
-            
-            devBuilds.innerHTML = `
-              ${preReleaseLink ? `<a href="${preReleaseLink}">Download latest Dev Build</a>` : ''}
-              ${preReleaseLink && nightlyLink ? '<span>|</span>' : ''}
-              ${nightlyLink ? `<a href="${nightlyLink}">Download latest Nightly Build</a>` : ''}
-            `;
-          }
-        }
+      const cache = localStorage.getItem('minicraftPlusData');
+      const cacheTime = localStorage.getItem('minicraftPlusDataTime');
+
+      // Use cache if less than 5 minutes old
+      if (cache && cacheTime && (Date.now() - parseInt(cacheTime)) < 300000) {
+        updateUIWithData(JSON.parse(cache));
+        return;
       }
+
+      const response = await fetch('https://api.github.com/repos/MinicraftPlus/minicraft-plus-revived/releases');
+      const data = await response.json();
+
+      // Cache the data
+      localStorage.setItem('minicraftPlusData', JSON.stringify(data));
+      localStorage.setItem('minicraftPlusDataTime', Date.now().toString());
+
+      updateUIWithData(data);
     } catch (error) {
       console.error('Error fetching Minicraft+ releases:', error);
-      // Fallback to hardcoded link if API fails
-      const downloadLink = document.querySelector('[data-edition="plus"]');
-      if (downloadLink) {
-        downloadLink.href = 'https://github.com/MinicraftPlus/minicraft-plus-revived/releases/download/v2.3.0-dev1/minicraft-plus-2.3.0-dev1.jar';
+    }
+  }
+
+  function updateUIWithData(data) {
+    if (!data || !Array.isArray(data) || data.length === 0) return;
+
+    // Find latest stable and dev versions
+    const stableRelease = data.find(release => !release.prerelease);
+    const devRelease = data.find(release => release.prerelease);
+
+    // Update stable version link
+    const downloadLink = document.querySelector('[data-edition="plus"]');
+    if (downloadLink && stableRelease?.assets?.length > 0) {
+      const jarAsset = stableRelease.assets.find(asset => asset.name.endsWith('.jar'));
+      if (jarAsset) {
+        downloadLink.href = jarAsset.browser_download_url;
+
+        const editionDiv = downloadLink.closest('.edition');
+        const versionInfo = editionDiv.querySelector('.version-info') || createVersionInfo(editionDiv);
+        versionInfo.textContent = `Latest Version: ${stableRelease.tag_name}`;
+        versionInfo.style.display = 'block';
+      }
+
+      // Add dev version info right after the version info
+      if (devRelease) {
+        const devBuildsDiv = document.querySelector('.dev-builds') || createDevBuildsDiv();
+        const jarAsset = devRelease.assets.find(asset => asset.name.endsWith('.jar'));
+        if (jarAsset) {
+          devBuildsDiv.innerHTML = `
+            <a href="${jarAsset.browser_download_url}">${devRelease.tag_name}</a>
+            <span>|</span>
+            <a href="https://github.com/MinicraftPlus/minicraft-plus-revived/releases" target="_blank">View All Releases</a>
+          `;
+        }
       }
     }
-    
-    // Add click handlers to newly added dev build links
-    document.querySelectorAll('.dev-builds a').forEach(button => {
+
+    // Add download handlers to all download buttons AFTER UI is updated
+    document.querySelectorAll('.edition-button, .dev-builds a').forEach(button => {
       button.addEventListener('click', (e) => {
         e.preventDefault();
         showThankYouAndDownload(button.href);
       });
     });
-  };
-
-  // Check for new release when page loads
-  updateMinicraftPlusLink();
-
-  // Check for new release every 5 minutes
-  setInterval(updateMinicraftPlusLink, 300000);
-
-  // RGB mode functionality
-  let rgbInterval;
-
-  function startRGBAnimation() {
-    let hue = 0;
-    rgbInterval = setInterval(() => {
-      hue = (hue + 5) % 360; // Faster color change
-      document.documentElement.style.setProperty('--rgb-primary', `hsl(${hue}, 100%, 50%)`);
-      document.documentElement.style.setProperty('--rgb-secondary', `hsl(${(hue + 120) % 360}, 100%, 50%)`);
-      document.documentElement.style.setProperty('--rgb-accent', `hsl(${(hue + 240) % 360}, 100%, 50%)`);
-    }, 16);
   }
 
-  function stopRGBAnimation() {
-    clearInterval(rgbInterval);
-    document.documentElement.style.removeProperty('--rgb-primary');
-    document.documentElement.style.removeProperty('--rgb-secondary');
-    document.documentElement.style.removeProperty('--rgb-accent');
+  function createVersionInfo(parent) {
+    const versionInfo = document.createElement('div');
+    versionInfo.className = 'version-info';
+    parent.insertBefore(versionInfo, parent.querySelector('.button-container'));
+    return versionInfo;
   }
 
-  // Add easter egg sound elements
-  const nyaSound = document.createElement('audio');
-  nyaSound.src = 'https://www.myinstants.com/media/sounds/nya_2xyALFL.mp3';
-  document.body.appendChild(nyaSound);
-
-  const vineBoomSound = document.createElement('audio');
-  vineBoomSound.src = 'https://www.myinstants.com/media/sounds/vine-boom-bass-boost-sound-effect.mp3';
-  document.body.appendChild(vineBoomSound);
-
-  // Add uwu and 69 detection
-  let typedKeys = '';
-  let timeout;
-  let uwuMode = false;
-
-  function resetTypingBuffer() {
-    clearTimeout(timeout);
-    timeout = setTimeout(() => {
-      typedKeys = '';
-    }, 1000);
+  function createDevBuildsDiv() {
+    const devBuildsDiv = document.createElement('div');
+    devBuildsDiv.className = 'dev-builds';
+    const versionInfo = document.querySelector('.version-info');
+    versionInfo.parentNode.insertBefore(devBuildsDiv, versionInfo.nextSibling);
+    return devBuildsDiv;
   }
 
-  function enableUwuMode() {
-    uwuMode = true;
-    nyaSound.currentTime = 0;
-    nyaSound.play();
-    
-    // Change all green colors to pink shades
-    document.documentElement.style.setProperty('--primary-color', '#FF69B4');  // Hot pink
-    document.documentElement.style.setProperty('--secondary-color', '#FF1493'); // Deep pink
-    document.documentElement.style.setProperty('--accent-color', '#FFB6C1');   // Light pink
-    document.documentElement.style.setProperty('--background-color', '#FFF0F5'); // Lavender blush
-    document.documentElement.style.setProperty('--gradient-start', '#FFE4E1'); // Misty rose
-    document.documentElement.style.setProperty('--gradient-end', '#FFC0CB');   // Pink
-    
-    // If in dark mode, use brighter pinks
-    if (document.documentElement.getAttribute('data-theme') === 'dark') {
-      document.documentElement.style.setProperty('--primary-color', '#FF69B4');
-      document.documentElement.style.setProperty('--secondary-color', '#FF1493');
-      document.documentElement.style.setProperty('--accent-color', '#FF00FF');
-      document.documentElement.style.setProperty('--background-color', '#4B0082');
-      document.documentElement.style.setProperty('--gradient-start', '#800080');
-      document.documentElement.style.setProperty('--gradient-end', '#8B008B');
-    }
-    
-    // Change all buttons and UI elements
-    document.querySelectorAll('.edition-button, .download-button, .discord-button, button').forEach(button => {
-      button.style.background = '#FF69B4';
-      button.style.borderColor = '#FF1493';
-    });
-  }
+  // Initial update
+  updateMinicraftLinks();
 
-  document.addEventListener('keypress', (e) => {
-    typedKeys += e.key.toLowerCase();
-    
-    if (typedKeys.includes('uwu') && !uwuMode) {
-      enableUwuMode();
-      typedKeys = '';
-    }
-    
-    if (typedKeys.includes('69')) {
-      vineBoomSound.currentTime = 0;
-      vineBoomSound.play();
-      
-      // Add a quick screen shake effect
-      document.body.style.animation = 'shake 0.5s cubic-bezier(.36,.07,.19,.97) both';
-      setTimeout(() => {
-        document.body.style.animation = '';
-      }, 500);
-      
-      typedKeys = '';
-    }
-    
-    resetTypingBuffer();
-  });
-
-  // Add shake animation to CSS dynamically
-  const style = document.createElement('style');
-  style.textContent = `
-    @keyframes shake {
-      10%, 90% { transform: translate3d(-1px, 0, 0); }
-      20%, 80% { transform: translate3d(2px, 0, 0); }
-      30%, 50%, 70% { transform: translate3d(-4px, 0, 0); }
-      40%, 60% { transform: translate3d(4px, 0, 0); }
-    }
-  `;
-  document.head.appendChild(style);
-
-  // Debounce helper function
-  function debounce(func, wait) {
-    let timeout;
-    return function executedFunction(...args) {
-      const later = () => {
-        clearTimeout(timeout);
-        func(...args);
-      };
-      clearTimeout(timeout);
-      timeout = setTimeout(later, wait);
-    };
-  }
+  // Check for updates every 5 minutes
+  setInterval(updateMinicraftLinks, 300000);
 });

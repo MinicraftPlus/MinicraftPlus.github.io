@@ -249,9 +249,8 @@ section {
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 1rem;
+  width: 100%;
   margin-top: auto;
-  flex-wrap: wrap;
 }
 
 .edition-button, .download-button, .discord-button, .mods-link {
@@ -613,7 +612,7 @@ footer {
   50% { text-shadow: 0 0 20px var(--primary-color); }
 }
 
-.version-info, .dev-builds {
+.version-info {
   font-family: 'Press Start 2P', cursive;
   font-size: 0.7rem;
   color: var(--accent-color);
@@ -621,36 +620,9 @@ footer {
   padding: 0.8rem;
   border-radius: 4px;
   background: var(--background-color);
-  display: block;
+  display: none;
   animation: fadeIn 0.3s ease-in-out;
   text-align: center;
-}
-
-.dev-builds {
-  margin-top: 0.5rem;
-  margin-bottom: 1rem;
-  color: #4a9eff;
-  font-family: 'Press Start 2P', cursive;
-  text-align: center;
-  width: 100%;
-}
-
-.dev-builds a {
-  color: inherit;
-  text-decoration: none;
-  transition: opacity 0.3s;
-  display: inline-block;
-  padding: 0.3rem 0.5rem;
-}
-
-.dev-builds a:hover {
-  opacity: 0.8;
-}
-
-.dev-builds span {
-  margin: 0 0.5rem;
-  color: var(--text-color);
-  opacity: 0.5;
 }
 
 @keyframes fadeIn {
@@ -814,6 +786,17 @@ footer {
 
 html {
   scroll-behavior: smooth;
+}
+
+#snake-game {
+  text-align: center;
+}
+
+#snake-score {
+  display: inline-block;
+  margin-top: 10px;
+  font-family: 'Press Start 2P', cursive;
+  color: var(--text-color);
 }
 
 @media (max-width: 968px) {

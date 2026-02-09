@@ -11,4 +11,5 @@ Check out **Minicraft+ Revived**, a community-driven project that expands upon t
 
 Click  🔗 [here](https://minicraftplus.github.io/old) to visit an archived version of the old website.
 
-<sup><sup><sub>Yes, i know that Minesweeper doesn't work.</sub></sup></sup>
+Click  🔗 [here](https://minicraftplus.github.io/beta.html) to visit the beta version of the website.
+

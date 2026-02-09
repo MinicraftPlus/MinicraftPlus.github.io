@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Minicraft+ Revived</title>
+    <link rel="icon" href="https://avatars.githubusercontent.com/u/98605800?s=200&v=4">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-dark: #0f1115;
+            --bg-card: #161b22;
+            --accent-primary: #58a6ff;
+            --accent-secondary: #238636;
+            --text-main: #c9d1d9;
+            --text-header: #ffffff;
+            --border-color: #30363d;
+            --uwu-color: #ff69b4;
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            line-height: 1.6;
+            overflow-x: hidden;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        h1, h2, h3, h4 { color: var(--text-header); font-weight: 800; letter-spacing: -0.02em; }
+        a { text-decoration: none; color: inherit; transition: var(--transition); }
+
+        /* Navigation */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 5%;
+            background: rgba(15, 17, 21, 0.95);
+            backdrop-filter: blur(10px);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 1px solid var(--border-color);
+            height: 80px;
+        }
+
+        .logo-container { display: flex; align-items: center; gap: 1rem; }
+        .logo-img { width: 40px; height: 40px; border-radius: 8px; }
+        .logo-text { font-size: 1.25rem; font-weight: 700; }
+
+        .nav-links { display: flex; gap: 2rem; align-items: center; }
+        .nav-links a.nav-item { font-size: 0.9rem; font-weight: 600; color: var(--text-main); }
+        .nav-links a.nav-item:hover { color: var(--accent-primary); }
+
+        .cta-button {
+            background-color: var(--accent-secondary);
+            color: white;
+            padding: 0.6rem 1.2rem;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            border: 1px solid rgba(255,255,255,0.1);
+            display: inline-flex;
+            align-items: center;
+        }
+
+        /* Hero */
+        .hero { 
+            padding: 8rem 5%; 
+            text-align: center; 
+            /* Smoothed gradient transition */
+            background: radial-gradient(circle at top center, #1f252e 0%, var(--bg-dark) 100%); 
+        }
+        .hero h1 { font-size: 4rem; margin-bottom: 1.5rem; background: linear-gradient(135deg, #fff 0%, #a0a0a0 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .hero p { font-size: 1.25rem; max-width: 700px; margin: 0 auto 3rem auto; color: #8b949e; }
+        .hero-buttons { display: flex; justify-content: center; gap: 1.5rem; }
+        .btn-large { padding: 1rem 2rem; border-radius: 8px; font-weight: 700; display: flex; align-items: center; gap: 0.5rem; cursor: pointer; border: none; }
+        .btn-primary { background: var(--accent-primary); color: #0d1117; }
+        .btn-outline { border: 2px solid var(--border-color); color: var(--text-header); background: transparent; }
+
+        /* Screenshots Section */
+        .screenshots { padding: 6rem 5%; background: #0d1117; border-bottom: 1px solid var(--border-color); }
+        .carousel-container {
+            position: relative;
+            max-width: 1000px;
+            margin: 0 auto;
+            overflow: hidden;
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+        }
+        .carousel-track { display: flex; transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1); }
+        .carousel-slide { min-width: 100%; height: 500px; object-fit: cover; background: #161b22; }
+        
+        /* Fixed Circle Buttons */
+        .carousel-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(0,0,0,0.7);
+            color: white;
+            border: none;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 10;
+            font-size: 1.2rem;
+            border-radius: 50%;
+            margin: 0 15px;
+            transition: var(--transition);
+        }
+        .carousel-btn:hover { background: var(--accent-primary); color: #0d1117; }
+        .btn-prev { left: 0; }
+        .btn-next { right: 0; }
+
+        /* Features */
+        .features { padding: 6rem 5%; max-width: 1400px; margin: 0 auto; }
+        .section-header { text-align: center; margin-bottom: 4rem; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; }
+        .card { background: var(--bg-card); border: 1px solid var(--border-color); padding: 2rem; border-radius: 12px; transition: var(--transition); }
+        .card:hover { transform: translateY(-5px); border-color: var(--accent-primary); box-shadow: 0 10px 30px rgba(0,0,0,0.3); }
+        .icon-box { width: 50px; height: 50px; background: rgba(88, 166, 255, 0.1); border-radius: 10px; display: flex; align-items: center; justify-content: center; margin-bottom: 1.5rem; color: var(--accent-primary); font-size: 1.5rem; }
+
+        /* Better Tutorial Section */
+        .install-section { background: var(--bg-card); padding: 6rem 5%; border-top: 1px solid var(--border-color); }
+        .tutorial-steps { max-width: 800px; margin: 0 auto; text-align: left; }
+        .step { display: flex; gap: 1.5rem; margin-bottom: 2rem; align-items: flex-start; }
+        .step-num { 
+            background: var(--accent-primary); 
+            color: #0d1117; 
+            width: 32px; 
+            height: 32px; 
+            min-width: 32px; 
+            border-radius: 50%; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            font-weight: 800;
+        }
+        .step-content h4 { margin-bottom: 0.5rem; }
+        .code-block { 
+            background: #0d1117; 
+            padding: 1rem 1.5rem; 
+            border-radius: 8px; 
+            font-family: 'JetBrains Mono', monospace; 
+            border: 1px solid var(--border-color); 
+            margin-top: 1rem; 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+        }
+        .copy-btn { background: transparent; border: 1px solid var(--border-color); color: #8b949e; padding: 0.3rem 0.6rem; border-radius: 4px; cursor: pointer; font-size: 0.8rem; }
+        .copy-btn:hover { color: var(--accent-primary); border-color: var(--accent-primary); }
+
+        /* Thank You Modal */
+        #thank-you-modal {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.92);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            backdrop-filter: blur(8px);
+        }
+        .modal-content { background: var(--bg-card); padding: 3.5rem; border-radius: 16px; border: 1px solid var(--accent-primary); max-width: 500px; box-shadow: 0 0 50px rgba(88, 166, 255, 0.2); }
+        .modal-content h2 { color: var(--accent-primary); margin-bottom: 1rem; font-size: 2rem; }
+        .discord-join-btn {
+            display: inline-block;
+            background: #5865F2;
+            color: white;
+            padding: 1rem 2.5rem;
+            border-radius: 8px;
+            font-weight: 700;
+            margin-top: 1.5rem;
+            transition: var(--transition);
+        }
+        .discord-join-btn:hover { background: #4752c4; transform: scale(1.05); }
+        .close-modal { margin-top: 2rem; display: block; color: #8b949e; cursor: pointer; text-decoration: underline; font-weight: 600; }
+
+        /* Footer */
+        footer { padding: 4rem 5%; border-top: 1px solid var(--border-color); background: #0d1117; text-align: center; margin-top: auto; }
+        .footer-logo { width: 60px; height: 60px; border-radius: 12px; margin-bottom: 1.5rem; }
+        .social-links { display: flex; justify-content: center; align-items: center; gap: 1.5rem; margin-bottom: 2rem; }
+        .social-icon { width: 24px; height: 24px; fill: #8b949e; transition: var(--transition); }
+        .social-link:hover .social-icon { fill: var(--accent-primary); transform: scale(1.1); }
+
+        /* UWU */
+        body.uwu-mode { --accent-primary: #ff69b4; --accent-secondary: #ff1493; }
+        body.uwu-mode .hero h1 { background: linear-gradient(135deg, #ff69b4 0%, #ff1493 100%); -webkit-background-clip: text; }
+
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 2.5rem; }
+            .nav-links { display: none; }
+            .carousel-slide { height: 300px; }
+        }
+    </style>
+</head>
+<body>
+
+    <div id="thank-you-modal">
+        <div class="modal-content">
+            <h2>Thank You!</h2>
+            <p>Your download is starting. While you wait, why not join our community of players and developers?</p>
+            
+            <a href="https://discord.gg/cKaSdpQ39n" target="_blank" class="discord-join-btn">
+                Join the Discord
+            </a>
+
+            <span class="close-modal" onclick="closeModal()">Return to site</span>
+        </div>
+    </div>
+
+    <nav class="navbar">
+        <div class="logo-container">
+            <img src="https://avatars.githubusercontent.com/u/98605800?s=200&v=4" alt="Minicraft+ Logo" class="logo-img">
+            <span class="logo-text">Minicraft+</span>
+        </div>
+        <div class="nav-links">
+            <a href="#features" class="nav-item">Features</a>
+            <a href="#screenshots" class="nav-item">Screenshots</a>
+            <a href="https://minicraft.wiki.gg/" target="_blank" class="nav-item">Wiki</a>
+            <a href="https://github.com/MinicraftPlus/minicraft-plus-revived/releases/download/v2.2.3/minicraft-plus-2.2.3.jar" class="cta-button" onclick="showThankYou()">Download</a>
+        </div>
+    </nav>
+
+    <section class="hero">
+        <h1 id="hero-title">The Legend Revived</h1>
+        <p>An expansive, open-source overhaul of Notch's original Ludum Dare masterpiece. Explore, build, and survive in an infinite world.</p>
+        <div class="hero-buttons">
+            <a href="https://github.com/MinicraftPlus/minicraft-plus-revived/releases/download/v2.2.3/minicraft-plus-2.2.3.jar" class="btn-large btn-primary" onclick="showThankYou()">
+                <span>⬇</span> Download Now
+            </a>
+            <a href="https://github.com/MinicraftPlus/minicraft-plus-revived" class="btn-large btn-outline">
+                View on GitHub
+            </a>
+        </div>
+    </section>
+
+    <section id="screenshots" class="screenshots">
+        <div class="section-header">
+            <h2>In-Game Action</h2>
+            <p>A glimpse into the infinite pixelated depths.</p>
+        </div>
+        <div class="carousel-container">
+            <button class="carousel-btn btn-prev" onclick="moveSlide(-1)">❮</button>
+            <div class="carousel-track" id="track">
+                <img src="https://m.gjcdn.net/game-screenshot/500/13826982-ll-8rtsnfea-v4.webp" class="carousel-slide" alt="Gameplay 1">
+                <img src="https://i.ibb.co/vSBn3YL/Bildschirmfoto-vom-2026-02-08-19-25-16.png" class="carousel-slide" alt="Gameplay 2">
+                <img src="https://minicraft.wiki.gg/images/Minicraft%2B_Title_Screen.png?484626" class="carousel-slide" alt="Gameplay 3">
+            </div>
+            <button class="carousel-btn btn-next" onclick="moveSlide(1)">❯</button>
+        </div>
+    </section>
+
+    <section id="features" class="features">
+        <div class="section-header">
+            <h2>Enhanced Experience</h2>
+            <p>We've taken the core concept and supercharged it for modern play.</p>
+        </div>
+        <div class="grid">
+            <div class="card">
+                <div class="icon-box">⚔️</div>
+                <h3>New Gamemodes</h3>
+                <p>Play your way with Creative, Hardcore, Score, and Survival modes. Challenge yourself or build freely.</p>
+            </div>
+            <div class="card">
+                <div class="icon-box">🌍</div>
+                <h3>Multiplayer Support</h3>
+                <p>Adventure together! Full multiplayer support with an integrated account system for seamless play.</p>
+            </div>
+            <div class="card">
+                <div class="icon-box">💾</div>
+                <h3>Save & Load</h3>
+                <p>Never lose progress again. A robust saving system ensures your world is always waiting for you.</p>
+            </div>
+            <div class="card">
+                <div class="icon-box">🎮</div>
+                <h3>Expanded Gameplay</h3>
+                <p>Discover new mobs, beds, mob spawners, ruined structures, and a personal crafting menu.</p>
+            </div>
+            <div class="card">
+                <div class="icon-box">🏰</div>
+                <h3>Deep Storyline</h3>
+                <p>Descend through Iron, Gold, and Gem levels to defeat the Air Wizard. Complete quests and unlock achievements.</p>
+            </div>
+            <div class="card">
+                <div class="icon-box">✨</div>
+                <h3>Modern Engine</h3>
+                <p>Better rendering, key binding customization, resource packs, and multi-language support.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="install-section">
+        <div class="section-header">
+            <h2>Getting Started</h2>
+            <p>Follow these quick steps to get Minicraft+ running on your system.</p>
+        </div>
+        
+        <div class="tutorial-steps">
+            <div class="step">
+                <div class="step-num">1</div>
+                <div class="step-content">
+                    <h4>Download Game</h4>
+                    <p>Grab the latest executable JAR file from our releases page below.</p>
+                    <a href="https://github.com/MinicraftPlus/minicraft-plus-revived/releases/download/v2.2.3/minicraft-plus-2.2.3.jar" class="btn-large btn-primary" onclick="showThankYou()" style="margin-top: 1rem; font-size: 0.9rem; padding: 0.7rem 1.5rem; width: 100%; justify-content: center;">
+                        Download Release
+                    </a>
+                </div>
+            </div>
+
+            <div class="step">
+                <div class="step-num">2</div>
+                <div class="step-content">
+                    <h4>Java Requirement</h4>
+                    <p>Ensure Java 8+ is installed. Verify your current version here:</p>
+                    <div class="code-block" style="padding: 0.75rem 1rem;">
+                        <span class="preserve-text">java -version</span>
+                        <button class="copy-btn" onclick="navigator.clipboard.writeText('java -version')">Copy</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="step">
+                <div class="step-num">3</div>
+                <div class="step-content">
+                    <h4>Launch Engine</h4>
+                    <p>Run the JAR file directly or via this command line for logging:</p>
+                    <div class="code-block" style="padding: 0.75rem 1rem;">
+                        <span class="preserve-text">java -jar minicraft.jar</span>
+                        <button class="copy-btn" onclick="navigator.clipboard.writeText('java -jar minicraft_plus.jar')">Copy</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer id="community">
+        <img src="https://avatars.githubusercontent.com/u/98605800?s=200&v=4" alt="Minicraft+ Logo" class="footer-logo">
+        <div class="social-links">
+            <a href="https://github.com/MinicraftPlus" class="social-link" title="GitHub">
+                <svg class="social-icon" viewBox="0 0 24 24"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+            </a>
+            <a href="https://discord.gg/cKaSdpQ39n" target="_blank" class="social-link" title="Discord">
+                <svg class="social-icon" viewBox="0 0 24 24"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028 14.09 14.09 0 0 0 1.226-1.994.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/></svg>
+            </a>
+            <a href="https://minicraft.wiki.gg/" target="_blank" class="social-link" title="Wiki">
+                <svg class="social-icon" viewBox="0 0 24 24"><path d="M18 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zM6 4h5v8l-2.5-1.5L6 12V4z"/></svg>
+            </a>
+        </div>
+        <p>&copy; <span class="preserve-text">2026</span> Minicraft+ Team. Licensed under GPL-3.0.</p>
+    </footer>
+
+    <script>
+        let currentSlide = 0;
+        const track = document.getElementById('track');
+        const slides = document.querySelectorAll('.carousel-slide');
+        
+        function moveSlide(direction) {
+            currentSlide = (currentSlide + direction + slides.length) % slides.length;
+            track.style.transform = `translateX(-${currentSlide * 100}%)`;
+        }
+
+        function showThankYou() {
+            document.getElementById('thank-you-modal').style.display = 'flex';
+        }
+        function closeModal() {
+            document.getElementById('thank-you-modal').style.display = 'none';
+        }
+
+        let keyBuffer = [];
+        const secretCode = "uwu";
+        let isUwuMode = false;
+
+        document.addEventListener('keydown', (e) => {
+            keyBuffer.push(e.key);
+            if (keyBuffer.length > secretCode.length) keyBuffer.shift();
+            if (keyBuffer.join('').toLowerCase() === secretCode && !isUwuMode) {
+                activateUwuMode();
+                keyBuffer = [];
+            }
+        });
+
+        function activateUwuMode() {
+            isUwuMode = true;
+            document.body.classList.add('uwu-mode');
+            const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, {
+                acceptNode: function(node) {
+                    if (node.parentElement.classList.contains('preserve-text') || 
+                        node.parentElement.tagName === 'SCRIPT' || 
+                        node.parentElement.tagName === 'STYLE') {
+                        return NodeFilter.FILTER_REJECT;
+                    }
+                    return NodeFilter.FILTER_ACCEPT;
+                }
+            });
+
+            let node;
+            while (node = walker.nextNode()) {
+                if (node.nodeValue.trim().length > 0) {
+                    node.nodeValue = uwuify(node.nodeValue);
+                }
+            }
+        }
+
+        function uwuify(text) {
+            return text.replace(/r/g, "w").replace(/l/g, "w")
+                       .replace(/R/g, "W").replace(/L/g, "W")
+                       .replace(/mo/g, "myo").replace(/no/g, "nyo")
+                       .replace(/!/g, "!! >w<")
+                       .replace(/\./g, " uwu.");
+        }
+    </script>
+</body>
+</html>
